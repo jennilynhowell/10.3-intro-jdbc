@@ -44,6 +44,7 @@ public class Stat {
 
     }
 
+
     public static List<Stat> findAll(DatabaseManager dbm) throws SQLException {
         ResultSet rs = dbm.find("stats");
         List<Stat> tempCollection = new ArrayList<>();
@@ -58,6 +59,27 @@ public class Stat {
         }
 
         return tempCollection;
+    }
+
+    public static Stat findByName(DatabaseManager dbm, String searchName) throws SQLException {
+        ResultSet rs = dbm.findByName("stats", searchName);
+        if (!rs.next()) {
+            System.out.println("Sorry, I couldn't find that name.");
+            return null;
+        } else {
+            List<Stat> tempStat = new ArrayList<>();
+            Statement tempStatement = dbm.getStatement();
+            while(rs.next()){
+                String name = searchName;
+                int wins = rs.getInt("wins");
+                int losses = rs.getInt("losses");
+                Stat foundStat = new Stat (name, wins, losses, tempStatement, rs.getInt("id"));
+                tempStat.add(foundStat);
+            }
+
+            return tempStat.get(0);
+        }
+
     }
 
     public void setName(String name) {

@@ -35,5 +35,11 @@ public class DatabaseManager {
         return rs;
     }
 
+    public ResultSet findByName(String tableName, String playerName) throws SQLException {
+        String formattedSQL = String.format("SELECT * FROM %s WHERE name = '%s'", tableName, playerName);
+        ResultSet rs = statement.executeQuery(formattedSQL);
+        return rs;
+    }
+
 
 }
