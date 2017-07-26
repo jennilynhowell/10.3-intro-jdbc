@@ -35,6 +35,10 @@ public class Stat {
     }
 
     public void updateStat() throws SQLException {
+        //cannot update unless stat has been saved to database
+        if (id == 0) {
+            throw new SQLException("Cannot update Object without an id");
+        }
         String formattedSql = String.format("UPDATE stats SET name = '%s', wins = %s, losses = %s WHERE id = %s", name, wins, losses, id);
         statement.executeUpdate(formattedSql);
 
