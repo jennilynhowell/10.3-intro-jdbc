@@ -14,6 +14,7 @@ public class Stat {
     private int wins;
     private int losses;
     private Statement statement;
+    private int id;
 
     public Stat(String name, int wins, int losses, Statement statement) {
         this.name = name;
@@ -22,9 +23,21 @@ public class Stat {
         this.statement = statement;
     }
 
+    //overloaded constructor will enable us to add the id in later once we have it from the db
+    public Stat(String name, int wins, int losses, Statement statement, int id) {
+        this(name, wins, losses, statement);
+        this.id = id;
+    }
+
     public void saveStat() throws SQLException {
         String formattedSql = String.format("INSERT INTO stats(name, wins, losses) VALUES ('%s', %s, %s)", name, wins, losses);
         statement.executeUpdate(formattedSql);
+    }
+
+    public void updateStat() throws SQLException {
+        String formattedSql = String.format("UPDATE stats SET name = '%s', wins = %s, losses = %s WHERE id = %s", name, wins, losses, id);
+        statement.executeUpdate(formattedSql);
+
     }
 
     public static List<Stat> findAll(DatabaseManager dbm) throws SQLException {
@@ -36,11 +49,23 @@ public class Stat {
             String name = rs.getString("name");
             int wins = rs.getInt("wins");
             int losses = rs.getInt("losses");
-            Stat tempStat = new Stat (name, wins, losses, tempStatement);
+            Stat tempStat = new Stat (name, wins, losses, tempStatement, rs.getInt("id"));
             tempCollection.add(tempStat);
         }
 
         return tempCollection;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
     }
 
     @Override

@@ -26,7 +26,14 @@ public class Main {
             joeMontana.saveStat();
 
             List<Stat> results = Stat.findAll(db);
+            for (Stat stat : results) {
+                //ok, let's update all wins to 0, then update them
+                //System.out.println(stat);
+                stat.setWins(0);
+                stat.updateStat();
+            }
 
+            results = Stat.findAll(db);
             for (Stat stat : results) {
                 System.out.println(stat);
             }
