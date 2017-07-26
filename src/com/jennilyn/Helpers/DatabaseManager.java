@@ -22,5 +22,7 @@ public class DatabaseManager {
         statement.executeUpdate("CREATE TABLE stats (id INTEGER PRIMARY KEY, name STRING, wins INTEGER, losses INTEGER)");
     }
 
-    //statement.executeUpdate("INSERT INTO stats (name, wins, losses) VALUES('Jennilyn', 10, 2)");
+    public Statement getStatement() {
+        return statement;
+    }
 }

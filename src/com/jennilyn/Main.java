@@ -1,6 +1,7 @@
 package com.jennilyn;
 
 import com.jennilyn.Helpers.DatabaseManager;
+import com.jennilyn.Model.Stat;
 
 import java.sql.*;
 
@@ -11,9 +12,16 @@ public class Main {
 
 	    try (Connection connection = DriverManager.getConnection("jdbc:sqlite:stats.db")) {
             DatabaseManager db = new DatabaseManager(connection);
+            Statement statement = db.getStatement();
+
             db.dropStatsTable();
             db.createStatsTable();
 
+            Stat lukeBaseballStats = new Stat("Luke", 24, 0, statement);
+            lukeBaseballStats.saveStat();
+
+            Stat joeMontana = new Stat("Joe Montana", 750, 2, statement);
+            joeMontana.saveStat();
 
             ResultSet rs = statement.executeQuery("SELECT * FROM stats");
             while (rs.next()) {
