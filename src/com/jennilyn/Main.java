@@ -1,5 +1,7 @@
 package com.jennilyn;
 
+import com.jennilyn.Helpers.DatabaseManager;
+
 import java.sql.*;
 
 public class Main {
@@ -8,10 +10,11 @@ public class Main {
 	    Class.forName("org.sqlite.JDBC");
 
 	    try (Connection connection = DriverManager.getConnection("jdbc:sqlite:stats.db")) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS stats");
-            statement.executeUpdate("CREATE TABLE stats (id INTEGER PRIMARY KEY, name STRING, wins INTEGER, losses INTEGER)");
-            statement.executeUpdate("INSERT INTO stats (name, wins, losses) VALUES('Jennilyn', 10, 2)");
+            DatabaseManager db = new DatabaseManager(connection);
+            db.dropStatsTable();
+            db.createStatsTable();
+
+
             ResultSet rs = statement.executeQuery("SELECT * FROM stats");
             while (rs.next()) {
                 String name = rs.getString("name");
