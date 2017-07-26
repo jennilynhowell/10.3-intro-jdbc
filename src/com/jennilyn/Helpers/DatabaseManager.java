@@ -1,6 +1,9 @@
 package com.jennilyn.Helpers;
 
+import com.jennilyn.Model.Stat;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,4 +28,12 @@ public class DatabaseManager {
     public Statement getStatement() {
         return statement;
     }
+
+    public ResultSet find(String tableName) throws SQLException {
+        String formattedSQL = String.format("SELECT * FROM %s", tableName);
+        ResultSet rs = statement.executeQuery(formattedSQL);
+        return rs;
+    }
+
+
 }
